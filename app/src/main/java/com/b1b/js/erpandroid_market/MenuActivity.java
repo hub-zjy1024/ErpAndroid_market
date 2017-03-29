@@ -93,7 +93,7 @@ public class MenuActivity extends AppCompatActivity {
 //                        dialog.show();
                         break;
                     case "比价单":
-//                        intent.setClass(MenuActivity.this, BijiaActivity.class);
+                        intent.setClass(MenuActivity.this, BijiaActivity.class);
                         startActivity(intent);
                         break;
                     case "查看单据关联图片":
@@ -104,6 +104,10 @@ public class MenuActivity extends AppCompatActivity {
 //                        intent.setClass(MenuActivity.this, UploadActivity.class);
 //                        startActivity(intent);
 //                        intent.setClass(MenuActivity.this, TakePic2Activity.class);
+                        startActivity(intent);
+                        break;
+                    case "拿货单":
+                        intent.setClass(MenuActivity.this, NahuoActivity.class);
                         startActivity(intent);
                         break;
                 }
@@ -152,9 +156,9 @@ public class MenuActivity extends AppCompatActivity {
         map = new HashMap<>();
         map.put("title", "比价单");
         listItems.add(map);
-//        map = new HashMap<>();
-//        map.put("title", "查看单据关联图片");
-//        listItems.add(map);
+        map = new HashMap<>();
+        map.put("title", "拿货单");
+        listItems.add(map);
 //        map = new HashMap<>();
 //        map.put("title", "上传服务");
 //        listItems.add(map);

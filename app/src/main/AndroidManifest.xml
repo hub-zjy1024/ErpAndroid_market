@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.b1b.js.erpandroid_market">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name="com.b1b.js.erpandroid_market.MyApp"
@@ -22,7 +24,10 @@
         <activity android:name="com.b1b.js.erpandroid_market.MenuActivity"/>
         <activity android:name="com.b1b.js.erpandroid_market.CaigouActivity"/>
         <activity android:name="com.b1b.js.erpandroid_market.CaigoudanEditActivity"/>
-        <activity android:name="com.b1b.js.erpandroid_market.NahuoActivity">
+        <activity android:name="com.b1b.js.erpandroid_market.NahuoActivity"/>
+        <activity android:name="com.b1b.js.erpandroid_market.AddBijiaActivity"/>
+        <activity android:name="com.b1b.js.erpandroid_market.BijiaActivity"/>
+        <activity android:name="com.b1b.js.erpandroid_market.BijiaDetailAcitiviy">
         </activity>
     </application>
 

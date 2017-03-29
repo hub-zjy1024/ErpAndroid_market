@@ -13,10 +13,19 @@
 
     <EditText
         android:id="@+id/activity_nahuo_pid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:hint="输入拿货型号"/>
+
     <ListView
         android:id="@+id/activity_nahuo_lv"
+        android:layout_below="@id/activity_nahuo_pid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <Button
+        android:id="@+id/activity_nahuo_btn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="搜索"/>
+
 </RelativeLayout>

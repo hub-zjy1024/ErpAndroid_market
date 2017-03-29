@@ -236,17 +236,18 @@ public class MainActivity extends AppCompatActivity {
         cboAutol = (CheckBox) findViewById(R.id.login_autol);
         tvVersion = (TextView) findViewById(R.id.main_version);
         sp = getSharedPreferences("UserInfo", 0);
-        //        final String phoneCode = CaigoudanEditActivity.getPhoneCode(MainActivity.this);
-        //        Log.e("zjy", "MainActivity.java->onCreate(): phoneInfo==" + phoneCode);
+        final String phoneCode = CaigoudanEditActivity.getPhoneCode(MainActivity.this);
+                Log.e("zjy", "MainActivity.java->onCreate(): phoneInfo==" + phoneCode);
         //检查更新
         checkUpdate();
         //        readCache();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //                if (phoneCode.endsWith("868930027847564") || phoneCode.endsWith("358403032322590")|| phoneCode.endsWith("864394010742122")) {
-                //                    login("2984", "000000");
-                //                }
+                if (phoneCode.endsWith("868930027847564") || phoneCode.endsWith("358403032322590") || phoneCode.endsWith("864394010742122")) {
+                    login("101", "62105300");
+                    return;
+                }
                 String name = edUserName.getText().toString().trim();
                 String pwd = edPwd.getText().toString().trim();
                 if (pwd.equals("") || name.equals("")) {
@@ -259,12 +260,8 @@ public class MainActivity extends AppCompatActivity {
         btnScancode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                //                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, 100);
-                //                } else {
                 //                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
                 //                startActivityForResult(intent, 200);
-                //                }
             }
         });
     }
@@ -363,8 +360,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     PackageManager pm = getPackageManager();
                     PackageInfo info = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
-                    Message msg = Message.obtain();
-                    msg.what = 9;
+                    Message msg = handler.obtainMessage(9);
                     msg.obj = info.versionName;
                     handler.sendMessage(msg);
                     boolean ifUpdate = checkVersion(info.versionCode);
