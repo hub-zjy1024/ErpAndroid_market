@@ -12,4 +12,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">35dp</item>
     </style>
+    <style name="caigouedit_items">
+        <item name="android:textColor">#a85cff</item>
+    </style>
 </resources>

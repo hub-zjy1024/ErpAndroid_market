@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_nahuo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.b1b.js.erpandroid_market.NahuoActivity">
+    >
+
+    <TextView
+        android:id="@+id/activity_nahuo_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/bijia_title_background"
+        android:gravity="center"
+        android:text="拿货单"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"/>
 
     <EditText
         android:id="@+id/activity_nahuo_pid"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/activity_nahuo_title"
         android:hint="输入拿货型号"/>
 
     <ListView
         android:id="@+id/activity_nahuo_lv"
-        android:layout_below="@id/activity_nahuo_pid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/activity_nahuo_pid"
+        android:divider="@drawable/listview_divider"
+        android:dividerHeight="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"/>
+
     <Button
         android:id="@+id/activity_nahuo_btn_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@id/activity_nahuo_pid"
+        android:layout_toRightOf="@id/activity_nahuo_pid"
         android:text="搜索"/>
 
 </RelativeLayout>

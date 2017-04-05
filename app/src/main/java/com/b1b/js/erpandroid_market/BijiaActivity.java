@@ -37,20 +37,25 @@ public class BijiaActivity extends AppCompatActivity {
     private List<BijiadanInfo> list;
     private BijiadanAdapter lvAdapter;
     private final int RES_SUCCESS = 0;
-    private final int RES_ERROR =1;
+    private final int RES_ERROR = 1;
+    private final int RES_ERROR_PARAM = 2;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case RES_SUCCESS:
-                    lvAdapter.notifyDataSetChanged();
-                    MyToast.showToast(BijiaActivity.this, "获取到" + list.size() + "条数据");
+                    if (list.size() != 0) {
+                        lvAdapter.notifyDataSetChanged();
+                        MyToast.showToast(BijiaActivity.this, "获取到" + list.size() + "条数据");
+                    }
                     break;
                 case RES_ERROR:
                     MyToast.showToast(BijiaActivity.this, "查询出现错误，请检查网络或更改条件");
                     break;
-                case 2:
+                case RES_ERROR_PARAM:
+                    MyToast.showToast(BijiaActivity.this, "查询条件有误，更改条件");
                     break;
             }
         }
@@ -81,16 +86,21 @@ public class BijiaActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.clear();
-                lvAdapter.notifyDataSetChanged();
+                if (list.size() != 0) {
+                    list.clear();
+                    lvAdapter.notifyDataSetChanged();
+                }
                 new Thread() {
                     @Override
                     public void run() {
                         super.run();
                         try {
-                            getBijiaList("", edPartNo.getText().toString());
-                            mHandler.sendEmptyMessage(RES_SUCCESS);
-                            //                            getBijiaDetail("", "908353");
+                            boolean isSuccess = getBijiaList("", edPartNo.getText().toString());
+                            if (isSuccess) {
+                                mHandler.sendEmptyMessage(RES_SUCCESS);
+                            } else {
+                                mHandler.sendEmptyMessage(RES_ERROR);
+                            }
                         } catch (IOException e) {
                             mHandler.sendEmptyMessage(RES_ERROR);
                             e.printStackTrace();
@@ -98,7 +108,7 @@ public class BijiaActivity extends AppCompatActivity {
                             mHandler.sendEmptyMessage(RES_ERROR);
                             e.printStackTrace();
                         } catch (JSONException e) {
-                            mHandler.sendEmptyMessage(RES_ERROR);
+                            mHandler.sendEmptyMessage(RES_ERROR_PARAM);
                             e.printStackTrace();
                         }
                     }
@@ -110,8 +120,10 @@ public class BijiaActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        list.clear();
-        lvAdapter.notifyDataSetChanged();
+        if (list.size() != 0) {
+            list.clear();
+            lvAdapter.notifyDataSetChanged();
+        }
         new Thread() {
             @Override
             public void run() {
@@ -126,7 +138,7 @@ public class BijiaActivity extends AppCompatActivity {
                     mHandler.sendEmptyMessage(RES_ERROR);
                     e.printStackTrace();
                 } catch (JSONException e) {
-                    mHandler.sendEmptyMessage(RES_ERROR);
+                    mHandler.sendEmptyMessage(RES_ERROR_PARAM);
                     e.printStackTrace();
                 }
             }
@@ -136,30 +148,35 @@ public class BijiaActivity extends AppCompatActivity {
     //    checkWord"  type="xs:string" />
     //       partNo"  type="xs:string" />
     //                GetBiJiaList
-    public void getBijiaList(String checkWord, String partNo) throws IOException, XmlPullParserException, JSONException {
+    public boolean getBijiaList(String checkWord, String partNo) throws IOException, XmlPullParserException, JSONException {
+        boolean flag = false;
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("checkWord", checkWord);
         map.put("partNo", partNo);
         SoapObject request = WebserviceUtils.getRequest(map, "GetBiJiaList");
         SoapPrimitive response = WebserviceUtils.getSoapPrimitiveResponse(request, SoapEnvelope.VER11, WebserviceUtils.MartService);
-        String json = response.toString().substring(7);
-        JSONObject object = new JSONObject(json);
-        JSONArray res = object.getJSONArray("RES");
-        for (int i = 0; i < res.length(); i++) {
-            JSONObject tempObj = res.getJSONObject(i);
-            String pid = tempObj.getString("单据号");
-            String createDate = tempObj.getString("制单日期");
-            String partNo1 = tempObj.getString("型号");
-            String counts = tempObj.getString("数量");
-            String fengzhuang = tempObj.getString("封装");
-            String pihao = tempObj.getString("批号");
-            String description = tempObj.getString("描述");
-            String factory = tempObj.getString("厂家");
-            String startTime = tempObj.getString("比价开始时间");
-            String kpCompany = tempObj.getString("开票公司");
-            String mark = tempObj.getString("备注");
-            BijiadanInfo info = new BijiadanInfo(pid, createDate, partNo1, counts, fengzhuang, pihao, factory, description, startTime, kpCompany, mark);
-            list.add(info);
+        if (response.toString().startsWith("SUCCESS")) {
+            String json = response.toString().substring(7);
+            JSONObject object = new JSONObject(json);
+            JSONArray res = object.getJSONArray("RES");
+            for (int i = 0; i < res.length(); i++) {
+                JSONObject tempObj = res.getJSONObject(i);
+                String pid = tempObj.getString("单据号");
+                String createDate = tempObj.getString("制单日期");
+                String partNo1 = tempObj.getString("型号");
+                String counts = tempObj.getString("数量");
+                String fengzhuang = tempObj.getString("封装");
+                String pihao = tempObj.getString("批号");
+                String description = tempObj.getString("描述");
+                String factory = tempObj.getString("厂家");
+                String startTime = tempObj.getString("比价开始时间");
+                String kpCompany = tempObj.getString("开票公司");
+                String mark = tempObj.getString("备注");
+                BijiadanInfo info = new BijiadanInfo(pid, createDate, partNo1, counts, fengzhuang, pihao, factory, description, startTime, kpCompany, mark);
+                list.add(info);
+            }
+            flag = true;
         }
+        return flag;
     }
 }

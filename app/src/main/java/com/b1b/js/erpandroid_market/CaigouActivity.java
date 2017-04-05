@@ -1,6 +1,5 @@
 package com.b1b.js.erpandroid_market;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,17 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.b1b.js.erpandroid_market.entity.CaigouGoodType;
 import com.b1b.js.erpandroid_market.entity.Caigoudan;
 import com.b1b.js.erpandroid_market.utils.MyDecoration;
 import com.b1b.js.erpandroid_market.utils.MyToast;
@@ -43,21 +39,14 @@ public class CaigouActivity extends AppCompatActivity {
 
     private RecyclerView mRview;
 
-    private List<String> data;
     private MyRviewAdapter adapter;
     private List<Caigoudan> caigouList;
     private EditText editPartNo;
     private Button btnSearch;
-    private ArrayList<CaigouGoodType> typeLists;
-    private ArrayList<CaigouGoodType> cTypeLists;
     private RadioGroup radioGroup;
     private View dialogView;
-    private int clickPos = 0;
-    private String pid;
     private Caigoudan currentCaigoudan;
-    private String strValue;
     int times = 0;
-    AlertDialog typeSelectDialog;
 
     interface OnItemClickListener {
         void onClick(int position);
@@ -69,27 +58,14 @@ public class CaigouActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    adapter.notifyDataSetChanged();
+                    if (caigouList.size() != 0)
+                        adapter.notifyDataSetChanged();
                     break;
                 case 1:
-                    MyToast.showToast(CaigouActivity.this, "当前条件有误，或网络状态不佳");
+                    MyToast.showToast(CaigouActivity.this, "当前网络状态不佳");
                     break;
                 case 2:
-                    if (times > 1) {
-                        radioGroup.removeAllViews();
-                        for (int i = 0; i < typeLists.size(); i++) {
-                            RadioButton rd = new RadioButton(CaigouActivity.this);
-                            CaigouGoodType cgtype = typeLists.get(i);
-                            rd.setText(cgtype.getStrText());
-                            radioGroup.addView(rd);
-                        }
-                    }
-                    break;
-                case 3:
-                    MyToast.showToast(CaigouActivity.this, "上传类别失败，或网络状态不佳");
-                    break;
-                case 4:
-                    MyToast.showToast(CaigouActivity.this, "上传类别成功");
+                    MyToast.showToast(CaigouActivity.this, "条件有误，请重新输入");
                     break;
             }
         }
@@ -109,8 +85,10 @@ public class CaigouActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String partNo = editPartNo.getText().toString().trim();
-                caigouList.clear();
-                adapter.notifyDataSetChanged();
+                if (caigouList.size() != 0) {
+                    caigouList.clear();
+                    adapter.notifyDataSetChanged();
+                }
                 if (TextUtils.isEmpty(MyApp.id)) {
                     MyToast.showToast(CaigouActivity.this, "登录id为空，请重新登录");
                     return;
@@ -123,7 +101,6 @@ public class CaigouActivity extends AppCompatActivity {
         lManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRview.setLayoutManager(lManager);
         mRview.addItemDecoration(new MyDecoration(CaigouActivity.this, MyDecoration.VERTICAL));
-        typeLists = new ArrayList<>();
         caigouList = new ArrayList<>();
         adapter = new MyRviewAdapter(caigouList, CaigouActivity.this, new OnItemClickListener() {
             @Override
@@ -135,91 +112,10 @@ public class CaigouActivity extends AppCompatActivity {
                     intent.putExtra("partNo", currentCaigoudan.getPartNo());
                     startActivity(intent);
                 }
-                //                if ((currentCaigoudan != null)) {
-                //                    AlertDialog.Builder builder = new AlertDialog.Builder(CaigouActivity.this);
-                //                    typeSelectDialog = builder.create();
-                //                    typeSelectDialog.setTitle("请选择类别");
-                //                    dialogView = LayoutInflater.from(CaigouActivity.this).inflate(R.layout.dialog_view_typeinfo, null);
-                //                    radioGroup = (RadioGroup) dialogView.findViewById(R.id.dialog_caigou_rg);
-                //                    radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                //                        @Override
-                //                        public void onCheckedChanged(RadioGroup group, int checkedId) {
-                //                            RadioButton tempButton = (RadioButton) group.findViewById(checkedId);
-                //                            for (int i = 0; i < typeLists.size(); i++) {
-                //                                if (typeLists.get(i).getStrText().equals(tempButton.getText().toString().trim())) {
-                //                                    clickPos = i;
-                //                                }
-                //                            }
-                //                        }
-                //                    });
-                //                    final EditText word = (EditText) dialogView.findViewById(R.id.dialog_caigou_serachEt);
-                //                    Button searchBtn = (Button) dialogView.findViewById(R.id.dialog_caigou_serachBtn);
-                //                    Button ok = (Button) dialogView.findViewById(R.id.dialog_caigou_finish);
-                //                    ok.setOnClickListener(new View.OnClickListener() {
-                //                                              @Override
-                //                                              public void onClick(View v) {
-                //                                                  CaigouGoodType caigouGoodType = typeLists.get(clickPos);
-                //                                                  String strValue = caigouGoodType.getStrValue();
-                //                                                  String strText = caigouGoodType.getStrText();
-                //                                                  String title = currentCaigoudan.getPartNo();
-                //                                                  final String uid = MyApp.id;
-                //                                                  final String pid = currentCaigoudan.getPid();
-                //                                                  final String string = strValue + "|" + strText + "|" + title;
-                //                                                  new Thread() {
-                //                                                      @Override
-                //                                                      public void run() {
-                //                                                          super.run();
-                //                                                          try {
-                //                                                              setPartTypeInfoInfo(pid, uid, string);
-                //                                                              mHandler.sendEmptyMessage(4);
-                //                                                          } catch (IOException e) {
-                //                                                              mHandler.sendEmptyMessage(3);
-                //                                                              e.printStackTrace();
-                //                                                          } catch (XmlPullParserException e) {
-                //                                                              mHandler.sendEmptyMessage(3);
-                //                                                              e.printStackTrace();
-                //                                                          }
-                //                                                      }
-                //                                                  }.start();
-                //                                              }
-                //                                          }
-                //                    );
-                //                    searchBtn.setOnClickListener(new View.OnClickListener()
-                //
-                //                                                 {
-                //                                                     @Override
-                //                                                     public void onClick(View v) {
-                //                                                         getTypeInfo(word.getText().toString());
-                //                                                     }
-                //                                                 }
-                //
-                //                    );
-                //                    word.requestFocus();
-                //                    typeSelectDialog.setView(dialogView);
-                //                    if (!typeSelectDialog.isShowing())
-                //
-                //                    {
-                //                        typeSelectDialog.show();
-                //                        if (typeLists.size() != 0) {
-                //                            for (int i = 0; i < typeLists.size(); i++) {
-                //                                RadioButton rd = new RadioButton(CaigouActivity.this);
-                //                                CaigouGoodType cgtype = typeLists.get(i);
-                //                                rd.setText(cgtype.getStrText());
-                //                                radioGroup.addView(rd);
-                //                            }
-                //                        }
-                //                    }
-                //                }
             }
         }
         );
         mRview.setAdapter(adapter);
-//        if (!TextUtils.isEmpty(MyApp.id)) {
-//            getData("", Integer.parseInt(MyApp.id), "");
-//        } else {
-//            MyToast.showToast(CaigouActivity.this, "用户id不存在，请重新登录");
-//        }
-        //        getTypeInfo("10");
     }
 
     @Override
@@ -235,7 +131,6 @@ public class CaigouActivity extends AppCompatActivity {
     }
 
     private void getData(final String checkWord, final int buyerId, final String partNo) {
-
         new Thread() {
             @Override
             public void run() {
@@ -249,19 +144,12 @@ public class CaigouActivity extends AppCompatActivity {
                     JSONArray array = object.getJSONArray("RES");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
-                        //   单据编号": "755940",
-                        //          "制单日期": "2015/11/24 15:03:12",
-                        //          "单据状态": "等待采购",
-                        //          "业务员": "管理员",
-                        //          "采购员": "管理员",
-                        //          "型号": "TEST【10】|TEST【11】"
                         String pid = obj.getString("单据编号");
                         String createdDate = obj.getString("制单日期");
                         String state = obj.getString("单据状态");
                         String ywName = obj.getString("业务员");
                         String caigouName = obj.getString("采购员");
                         String partNo1 = obj.getString("型号");
-//                        partNo1 = partNo1.substring(0, partNo1.indexOf("【"));
                         Caigoudan caigoudan = new Caigoudan(state, pid, createdDate, ywName, caigouName, partNo1);
                         caigouList.add(caigoudan);
                     }
@@ -272,7 +160,7 @@ public class CaigouActivity extends AppCompatActivity {
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
-                    mHandler.sendEmptyMessage(1);
+                    mHandler.sendEmptyMessage(2);
                     e.printStackTrace();
                 }
             }
@@ -336,47 +224,7 @@ public class CaigouActivity extends AppCompatActivity {
         map.put("partNo", partNo);
         SoapObject request = WebserviceUtils.getRequest(map, "GetBillByPartNo");
         SoapPrimitive response = WebserviceUtils.getSoapPrimitiveResponse(request, SoapEnvelope.VER11, WebserviceUtils.MartService);
-        Log.e("zjy", "CaigouActivity.java->getCaigoudan(): response==" + response.toString());
         return response.toString();
     }
-
-    public String getTypeInfo(final String keyword) {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                typeLists.clear();
-                LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-                map.put("selValue", keyword);
-                SoapObject request = WebserviceUtils.getRequest(map, "GetXinHaoManageInfo");
-                try {
-                    SoapPrimitive response = WebserviceUtils.getSoapPrimitiveResponse(request, SoapEnvelope.VER11, WebserviceUtils.MartService);
-                    Log.e("zjy", "CaigouActivity.java->run(): response==" + response.toString());
-                    JSONObject obj = new JSONObject(response.toString());
-                    JSONArray jsonArray = obj.getJSONArray("表");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject tObj = jsonArray.getJSONObject(i);
-                        String strValue = tObj.getString("objid");
-                        String StrText = tObj.getString("objvalue");
-                        //                        CaigouGoodType caigouGoodType = new CaigouGoodType(strValue, "", StrText);
-                        CaigouGoodType caigouGoodType = new CaigouGoodType(i, strValue, "", StrText);
-                        typeLists.add(caigouGoodType);
-                    }
-                    times++;
-                    mHandler.sendEmptyMessage(2);
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mHandler.sendEmptyMessage(1);
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    mHandler.sendEmptyMessage(1);
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-        return null;
-    }
-
 
 }

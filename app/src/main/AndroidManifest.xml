@@ -8,26 +8,28 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:name="com.b1b.js.erpandroid_market.MyApp"
+        android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/appicon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="com.b1b.js.erpandroid_market.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.b1b.js.erpandroid_market.MenuActivity"/>
-        <activity android:name="com.b1b.js.erpandroid_market.CaigouActivity"/>
-        <activity android:name="com.b1b.js.erpandroid_market.CaigoudanEditActivity"/>
-        <activity android:name="com.b1b.js.erpandroid_market.NahuoActivity"/>
-        <activity android:name="com.b1b.js.erpandroid_market.AddBijiaActivity"/>
-        <activity android:name="com.b1b.js.erpandroid_market.BijiaActivity"/>
-        <activity android:name="com.b1b.js.erpandroid_market.BijiaDetailAcitiviy">
+        <activity android:name=".MenuActivity"/>
+        <activity android:name=".CaigouActivity"/>
+        <activity android:name=".CaigoudanEditActivity"/>
+        <activity android:name=".NahuoActivity"/>
+        <activity android:name=".AddBijiaActivity"/>
+        <activity android:name=".BijiaActivity"/>
+        <activity android:name=".BijiaDetailAcitiviy">
+        </activity>
+        <activity android:name=".NahuoEditActivity">
         </activity>
     </application>
 

@@ -1,11 +1,13 @@
 package com.b1b.js.erpandroid_market;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -63,6 +65,14 @@ public class NahuoActivity extends AppCompatActivity {
         data = new ArrayList<>();
         nahuoAdapter = new NahuoAdapter(data, NahuoActivity.this, R.layout.item_simple_tv);
         lv.setAdapter(nahuoAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(NahuoActivity.this, NahuoEditActivity.class);
+                intent.putExtra("pid", data.get(position).getPid());
+                startActivity(intent);
+            }
+        });
     }
 
     private void beginSearch() {
@@ -73,7 +83,7 @@ public class NahuoActivity extends AppCompatActivity {
                 try {
                     getNahuoMainInfo("810934");
                     getNahuoDetailTableInfo("810934");
-                    getFinishNahuoInfo("810934", "", "");
+//                    getFinishNahuoInfo("810934", "", "");
                     getNahuoList(MyApp.id, "");
                     mHander.sendEmptyMessage(0);
                 } catch (IOException e) {

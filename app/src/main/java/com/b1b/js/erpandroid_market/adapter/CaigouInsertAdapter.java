@@ -1,7 +1,6 @@
 package com.b1b.js.erpandroid_market.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +20,17 @@ public class CaigouInsertAdapter extends BaseAdapter {
     private List<InsertDetialInfo> data;
     private Context mContext;
 
-    public interface BtnOnClickListener {
+    public interface InsertBtnOnClickListener {
         void onClick(int position);
     }
 
-    public CaigouInsertAdapter(List<InsertDetialInfo> data, Context mContext, BtnOnClickListener mListener) {
+    public CaigouInsertAdapter(List<InsertDetialInfo> data, Context mContext, InsertBtnOnClickListener mListener) {
         this.data = data;
         this.mContext = mContext;
         this.mListener = mListener;
     }
 
-    private BtnOnClickListener mListener;
+    private InsertBtnOnClickListener mListener;
 
     @Override
     public int getCount() {
@@ -59,16 +58,11 @@ public class CaigouInsertAdapter extends BaseAdapter {
             mHolder.selType = (Button) convertView.findViewById(R.id.caigouedit_insert_seltype);
             mHolder.partNo = (TextView) convertView.findViewById(R.id.caigouedit_insert_partno);
             mHolder.type = (TextView) convertView.findViewById(R.id.caigouedit_insert_leibie);
-            Log.e("zjy", "CaigouInsertAdapter.java->getView(): new holder");
             mHolder.type.setTag(data.get(position));
             convertView.setTag(mHolder);
         } else {
             mHolder = (MyViewHolder) convertView.getTag();
         }
-        //        InsertDetialInfo info = (InsertDetialInfo) convertView.getTag(1);
-        //        InsertDetialInfo info = data.get(position);
-        Log.e("zjy", "CaigouInsertAdapter.java->getView(): ==" + position);
-        InsertDetialInfo info1 = (InsertDetialInfo) mHolder.type.getTag();
         InsertDetialInfo info2 = data.get(position);
         if (info2.getPihao() != null) {
             mHolder.pihao.setText(info2.getPihao());

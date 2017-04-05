@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 case 7:
                     //                    startUpdate();
                     //                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    //                    builder.setTitle("提示");
+                    //                    builder.setTypeID("提示");
                     //                    builder.setMessage("当前有新版本可用，是否更新?\n更新内容：\n" + updateLog);
                     //                    builder.setCancelable(false);
                     //                    builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
@@ -220,6 +220,11 @@ public class MainActivity extends AppCompatActivity {
                     downPd.cancel();
                     MyToast.showToast(MainActivity.this, "下载失败");
                     break;
+                case 12:
+                    String info = tvVersion.getText().toString().trim();
+                    info = info +"，更新说明:"+"\n"+ updateLog;
+                    tvVersion.setText(info);
+                    break;
             }
         }
     };
@@ -232,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
         edPwd = (EditText) findViewById(R.id.login_pwd);
         btnLogin = (Button) findViewById(R.id.login_btnlogin);
         btnScancode = (Button) findViewById(R.id.login_scancode);
+        btnScancode.setEnabled(false);
         cboRemp = (CheckBox) findViewById(R.id.login_rpwd);
         cboAutol = (CheckBox) findViewById(R.id.login_autol);
         tvVersion = (TextView) findViewById(R.id.main_version);
@@ -567,8 +573,7 @@ public class MainActivity extends AppCompatActivity {
      @throws IOException             */
     public boolean checkVersion(int localVersion) throws IOException {
         boolean ifUpdate = false;
-        //        String url = "http://192.168.10.127:8080/AppUpdate/download/readme.txt";
-        String url = "http://172.16.6.160:8006/DownLoad/readme.txt";
+        String url = "http://172.16.6.160:8006/DownLoad/dyj_market_readme.txt";
         URL urll = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) urll.openConnection();
         conn.setConnectTimeout(5 * 1000);
@@ -587,8 +592,10 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if (Integer.parseInt(info[1]) > localVersion) {
                         ifUpdate = true;
-                        updateLog = info[2];
                     }
+                    updateLog = info[2];
+                    Message msg = handler.obtainMessage(12);
+                    msg.sendToTarget();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -601,7 +608,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void update(Context context, Handler mHandler) throws IOException {
         //        String url = "http://192.168.10.127:8080/AppUpdate/DownLoad/dyjkfapp.apk";
-        String downUrl = "http://172.16.6.160:8006/DownLoad/dyjkfapp.apk";
+        String downUrl = "http://172.16.6.160:8006/DownLoad/dyj_market.apk";
         URL url = new URL(downUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setConnectTimeout(3 * 1000);

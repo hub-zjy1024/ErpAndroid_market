@@ -5,24 +5,29 @@ package com.b1b.js.erpandroid_market.entity;
 
 public class CaigouGoodType {
     //    "StrValue": "43",
-    //            "Title": "型号",
-    //            "StrText": "集成电路"
+    //            "typeID": "型号",
+    //            "typeName": "集成电路"
     private int index;
     private String StrValue;
-    private String Title;
-    private String StrText;
+    private String typeID;
+    private String typeName;
 
-    public CaigouGoodType(int index, String strValue, String title, String strText) {
+    public CaigouGoodType(int index, String strValue, String typeID, String typeName) {
         this.index = index;
         StrValue = strValue;
-        Title = title;
-        StrText = strText;
+        this.typeID = typeID;
+        this.typeName = typeName;
     }
 
-    public CaigouGoodType(String strValue, String title, String strText) {
+    public CaigouGoodType(String typeID, String typeName) {
+        this.typeID = typeID;
+        this.typeName = typeName;
+    }
+
+    public CaigouGoodType(String strValue, String typeID, String typeName) {
         StrValue = strValue;
-        Title = title;
-        StrText = strText;
+        this.typeID = typeID;
+        this.typeName = typeName;
     }
 
     public String getStrValue() {
@@ -41,19 +46,19 @@ public class CaigouGoodType {
         StrValue = strValue;
     }
 
-    public String getTitle() {
-        return Title;
+    public String getTypeID() {
+        return typeID;
     }
 
-    public void setTitle(String title) {
-        Title = title;
+    public void setTypeID(String typeID) {
+        this.typeID = typeID;
     }
 
-    public String getStrText() {
-        return StrText;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setStrText(String strText) {
-        StrText = strText;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }

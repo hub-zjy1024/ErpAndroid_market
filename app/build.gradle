@@ -29,4 +29,5 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     testCompile 'junit:junit:4.12'
     compile files('libs/ksoap2-android-assembly-2.6.0-jar-with-dependencies.jar')
+    compile 'com.googlecode.android-wheel:datetime-picker:1.1'
 }

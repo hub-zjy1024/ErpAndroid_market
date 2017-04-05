@@ -7,6 +7,16 @@
     android:orientation="vertical"
     >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/bijia_title_background"
+        android:gravity="center"
+        android:text="新增比价"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,11 +33,12 @@
 
         <EditText
             android:id="@+id/add_bijia_money"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:maxLines="1"
-            android:hint="请输入价格"/>
+            android:hint="请输入价格"
+            android:inputType="numberDecimal"
+            android:maxLines="1"/>
 
     </LinearLayout>
 
@@ -170,7 +181,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:paddingTop="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -193,7 +205,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:paddingTop="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -204,7 +217,7 @@
 
         <Button
             android:id="@+id/add_bijia_jzdate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="点击选择日期"
@@ -245,7 +258,6 @@
             android:id="@+id/add_bijia_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:text="确定"
             android:textSize="18sp"/>
 
@@ -255,6 +267,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="取消"
+            android:textSize="18sp"
             />
 
     </LinearLayout>

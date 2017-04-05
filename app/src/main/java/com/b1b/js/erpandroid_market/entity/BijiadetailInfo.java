@@ -8,6 +8,51 @@ public class BijiadetailInfo {
     private String uid;
     private String userName;
     private String mark;
+    private String price;
+    private String hasFapiao;
+    private String providerName;
+    private String fukuanType;
+    private String jiezhangDate;
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getHasFapiao() {
+        return hasFapiao;
+    }
+
+    public void setHasFapiao(String hasFapiao) {
+        this.hasFapiao = hasFapiao;
+    }
+
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
+    }
+
+    public String getFukuanType() {
+        return fukuanType;
+    }
+
+    public void setFukuanType(String fukuanType) {
+        this.fukuanType = fukuanType;
+    }
+
+    public String getJiezhangDate() {
+        return jiezhangDate;
+    }
+
+    public void setJiezhangDate(String jiezhangDate) {
+        this.jiezhangDate = jiezhangDate;
+    }
 
     @Override
     public String toString() {
@@ -15,7 +60,12 @@ public class BijiadetailInfo {
                 "时间=" + startTime + "\n" +
                         "用户ID=" + uid + "\n" +
                         "用户名=" + userName + "\n" +
-                        "备注=" + mark + "\n";
+                        "比价价格=" + price + "\n" +
+                        "付款类型=" + fukuanType + "\n" +
+                        "是否开票=" + hasFapiao + "\n" +
+                        "供应商名称=" + providerName + "\n" +
+                        "结账日期=" + jiezhangDate + "\n" +
+                        "备注=" + mark;
 
     }
 

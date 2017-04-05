@@ -37,6 +37,7 @@ public class BijiaDetailAcitiviy extends AppCompatActivity {
     private BijiaDetailAdapter adapter;
     private final int REQ_SUCCESS = 0;
     private final int REQ_ERROR = 1;
+    private final int REQ_ERROR_OPTIONS = 2;
     private String pid;
     private Button btnAdd;
 
@@ -51,10 +52,14 @@ public class BijiaDetailAcitiviy extends AppCompatActivity {
                         emptyView.setVisibility(View.INVISIBLE);
                     } else {
                         emptyView.setVisibility(View.VISIBLE);
+                        MyToast.showToast(BijiaDetailAcitiviy.this, "暂无比价单");
                     }
                     break;
                 case REQ_ERROR:
                     MyToast.showToast(BijiaDetailAcitiviy.this, "当前网络连接出错");
+                    break;
+                case REQ_ERROR_OPTIONS:
+                    MyToast.showToast(BijiaDetailAcitiviy.this, "查询条件有误");
                     break;
             }
         }
@@ -99,7 +104,7 @@ public class BijiaDetailAcitiviy extends AppCompatActivity {
                     mHandler.sendEmptyMessage(REQ_ERROR);
                     e.printStackTrace();
                 } catch (JSONException e) {
-                    mHandler.sendEmptyMessage(REQ_ERROR);
+                    mHandler.sendEmptyMessage(REQ_ERROR_OPTIONS);
                     e.printStackTrace();
                 }
             }
@@ -125,6 +130,7 @@ public class BijiaDetailAcitiviy extends AppCompatActivity {
         map.put("mainID", Integer.valueOf(mainID));
         SoapObject request = WebserviceUtils.getRequest(map, "GetBiJiaDetail");
         SoapPrimitive response = WebserviceUtils.getSoapPrimitiveResponse(request, SoapEnvelope.VER11, WebserviceUtils.MartService);
+        Log.e("zjy", "BijiaDetailAcitiviy.java->getBijiaDetail(): ==" + response.toString());
         String json = response.toString().substring(7);
         JSONObject root = new JSONObject(json);
         JSONArray array = root.getJSONArray("Details");
@@ -139,10 +145,28 @@ public class BijiaDetailAcitiviy extends AppCompatActivity {
             String date = tempObj.getString("时间");
             String uid = tempObj.getString("用户ID");
             String userName = tempObj.getString("用户名");
+            String price = tempObj.getString("比价价格");
+            String fukuanType = tempObj.getString("付款类型");
+            String hasFapiao = tempObj.getString("是否开票");
+            String providerName = tempObj.getString("供应商名称");
+            String jiezhangDate = tempObj.getString("结账日期");
             String mark = tempObj.getString("备注");
             BijiadetailInfo dInfo = new BijiadetailInfo(date, uid, userName, mark);
+            dInfo.setFukuanType(fukuanType);
+            dInfo.setPrice(price);
+            dInfo.setProviderName(providerName);
+            dInfo.setJiezhangDate(jiezhangDate);
+            dInfo.setHasFapiao(hasFapiao);
             data.add(dInfo);
         }
-        Log.e("zjy", "BijiaDetailAcitiviy.java->getBijiaDetail(): ==" + response.toString());
+
+    }
+
+    public class BijiaDetailRunable implements Runnable {
+
+        @Override
+        public void run() {
+            getBijiaDetail("");
+        }
     }
 }

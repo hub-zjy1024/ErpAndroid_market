@@ -156,9 +156,9 @@ public class MenuActivity extends AppCompatActivity {
         map = new HashMap<>();
         map.put("title", "比价单");
         listItems.add(map);
-        map = new HashMap<>();
-        map.put("title", "拿货单");
-        listItems.add(map);
+//        map = new HashMap<>();
+//        map.put("title", "拿货单");
+//        listItems.add(map);
 //        map = new HashMap<>();
 //        map.put("title", "上传服务");
 //        listItems.add(map);

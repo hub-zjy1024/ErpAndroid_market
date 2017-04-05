@@ -24,7 +24,7 @@
     <ListView
         android:id="@+id/dialog_insert_lv"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"/>
 
@@ -37,28 +37,31 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/dialog_insert_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="请输入进价"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
                 />
 
             <EditText
                 android:id="@+id/dialog_insert_pihao"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:hint="请输入批号"
+                android:maxLines="1"
                 />
+
+            <Button
+                android:id="@+id/dialog_insert_commit"
+                style="@style/myButton"
+                android:layout_gravity="center_vertical"
+                android:text="完成"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/dialog_insert_commit"
-            style="@style/myButton"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="50dp"
-            android:text="完成"/>
     </LinearLayout>
 </LinearLayout>

@@ -11,12 +11,12 @@ import java.util.List;
 /**
  Created by 张建宇 on 2017/2/23. */
 
-public abstract class MyBaseAdapter<T> extends BaseAdapter {
+public abstract class MyBaseAdapter2<T, H extends MyBaseAdapter2.MyBasedHolder> extends BaseAdapter {
     protected List<T> data;
     protected Context mContext;
     protected int itemViewId;
 
-    public MyBaseAdapter(List<T> data, Context mContext, int itemViewId) {
+    public MyBaseAdapter2(List<T> data, Context mContext, int itemViewId) {
         this.data = data;
         this.mContext = mContext;
         this.itemViewId = itemViewId;
@@ -28,14 +28,14 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
     }
 
     @Override
-    public  View getView(int position, View convertView, ViewGroup parent){
-        MyBasedHolder holder = getCustomHolder();
+    public View getView(int position, View convertView, ViewGroup parent) {
+        H holder = getCustomHolder();
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(itemViewId, parent, false);
-            findChildViews(convertView,holder);
+            findChildViews(convertView, holder);
             convertView.setTag(holder);
         } else {
-            holder = (MyBasedHolder) convertView.getTag();
+            holder = (H) convertView.getTag();
         }
         T currentT = data.get(position);
         if (currentT != null) {
@@ -58,10 +58,10 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
 
     }
 
-    protected abstract void findChildViews(View convertView, MyBasedHolder basedHolder);
+    protected abstract void findChildViews(View convertView, H holder);
 
-    protected abstract void onBindData(T currentData, MyBasedHolder baseHolder);
+    protected abstract void onBindData(T currentData, H mHolder);
 
-    protected abstract MyBasedHolder getCustomHolder();
+    protected abstract H getCustomHolder();
 
 }

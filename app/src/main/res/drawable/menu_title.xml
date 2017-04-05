@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <corners android:radius="10dp"/>
-    <solid android:color="#bed0ea"/>
+    <solid android:color="@color/bijia_title_background"/>
 </shape>

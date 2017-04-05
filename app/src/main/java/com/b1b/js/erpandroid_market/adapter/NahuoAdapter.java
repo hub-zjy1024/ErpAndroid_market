@@ -18,14 +18,14 @@ public class NahuoAdapter extends MyBaseAdapter<NahuoDan> {
     }
 
     @Override
-    protected void initItems(View convertView, MyBaseAdapter<NahuoDan>.MyBasedHolder holder) {
-        NhHolder nhHolder = (NhHolder) holder;
+    protected void findChildViews(View convertView, MyBaseAdapter<NahuoDan>.MyBasedHolder basedHolder) {
+        NhHolder nhHolder = (NhHolder) basedHolder;
         nhHolder.tv = (TextView) convertView.findViewById(R.id.simple_tv);
     }
 
     @Override
-    protected void onBindHolder(NahuoDan currentData, MyBaseAdapter.MyBasedHolder mHolder) {
-        NhHolder holder = (NhHolder) mHolder;
+    protected void onBindData(NahuoDan currentData, MyBaseAdapter.MyBasedHolder baseHolder) {
+        NhHolder holder = (NhHolder) baseHolder;
         holder.tv.setText(currentData.toString());
     }
 

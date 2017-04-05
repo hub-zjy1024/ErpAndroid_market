@@ -9,7 +9,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.b1b.js.erpandroid_market.R;
 
@@ -17,8 +16,8 @@ import com.b1b.js.erpandroid_market.R;
  Created by 张建宇 on 2017/2/7. */
 
 public class MyDecoration extends DividerItemDecoration {
-    public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
-    public static final int VERTICAL = LinearLayout.VERTICAL;
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
     private Drawable mDivider;
     private int mOrientation;
     private final Rect mBounds = new Rect();

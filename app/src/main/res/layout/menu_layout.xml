@@ -3,15 +3,16 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@mipmap/bg_main"
+              android:background="#a39797"
               android:padding="10dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/menu_title"
+        android:background="@color/bijia_title_background"
         android:gravity="center"
         android:text="管理"
+        android:textColor="@color/color_white"
         android:textSize="25sp"/>
 
     <ListView

@@ -1,80 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="型号:"
             android:textSize="20sp"
-            android:hint="型号:"/>
+            android:layout_width="100dp"/>
 
         <TextView
             android:id="@+id/caigouedit_insert_partno"
-            android:layout_width="wrap_content"
+            style="@style/caigouedit_items"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            />
+            android:layout_width="match_parent"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="所属类别:"
             android:textSize="20sp"
-            android:hint="所属类别:"/>
+            android:layout_width="100dp"/>
 
         <TextView
             android:id="@+id/caigouedit_insert_leibie"
-            android:layout_width="wrap_content"
-            android:textSize="20sp"
+            style="@style/caigouedit_items"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="采购金额:"
             android:textSize="20sp"
-            android:hint="采购金额:"/>
+            android:layout_width="100dp"/>
 
         <TextView
             android:id="@+id/caigouedit_insert_money"
-            android:textSize="20sp"
-            android:layout_width="wrap_content"
+            style="@style/caigouedit_items"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
+
             />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="批号:"
             android:textSize="20sp"
-            android:hint="批号:"/>
+            android:layout_width="100dp"/>
 
         <TextView
             android:id="@+id/caigouedit_insert_pihao"
-            android:layout_width="wrap_content"
+            style="@style/caigouedit_items"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             />
@@ -83,5 +88,6 @@
     <Button
         android:id="@+id/caigouedit_insert_seltype"
         style="@style/myButton"
-        android:text="插入采购明细（进价，类型，批号）"/>
+        android:text="插入采购明细（进价，类型，批号）"
+        tools:ignore="HardcodedText"/>
 </LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.b1b.js.erpandroid_market.NahuoEditActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/bijia_title_background"
+        android:gravity="center"
+        android:text="拿货单"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/activity_nahuo_pid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/activity_nahuo_ed_provider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="输入供应商筛选"
+            />
+
+        <Button
+            android:id="@+id/activity_nahuo_btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="搜索供应商"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/activity_nahuo_selected_provider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="当前选中的供应商："
+        />
+
+    <TextView
+        android:id="@+id/activity_nahuo_cankaipiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="能否开票："
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否取得发票"
+            />
+
+        <CheckBox
+            android:id="@+id/activity_nahuo_cbox_hasfapiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

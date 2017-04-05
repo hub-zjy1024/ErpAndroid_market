@@ -1,24 +1,28 @@
 package com.b1b.js.erpandroid_market;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 
 import com.b1b.js.erpandroid_market.adapter.PopAdapter;
@@ -34,8 +38,12 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 
 public class AddBijiaActivity extends AppCompatActivity {
 
@@ -107,13 +115,7 @@ public class AddBijiaActivity extends AppCompatActivity {
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddBijiaActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        btnDate.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
+                showMyTimePick(AddBijiaActivity.this);
             }
         });
         pid = getIntent().getStringExtra("pid");
@@ -154,12 +156,14 @@ public class AddBijiaActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         String keyword = editText.getText().toString();
-
                         if (did == -1) {
                             MyToast.showToast(AddBijiaActivity.this, "部门号不存在，请清理缓存");
                             return;
                         }
-                        providerInfos.clear();
+                        if (providerInfos.size() != 0) {
+                            providerInfos.clear();
+                            popAdapter.notifyDataSetChanged();
+                        }
                         getMyProvider("", MyApp.id, did, keyword, mHandler);
                     }
                 });
@@ -196,7 +200,7 @@ public class AddBijiaActivity extends AppCompatActivity {
                     MyToast.showToast(AddBijiaActivity.this, "请输入价格");
                     return;
                 }
-                final String date = btnDate.getText().toString().trim();
+                final String date = btnDate.getText().toString();
                 if (date.equals("点击选择日期")) {
                     MyToast.showToast(AddBijiaActivity.this, "请选择日期");
                     return;
@@ -260,12 +264,170 @@ public class AddBijiaActivity extends AppCompatActivity {
 
     }
 
+    private void showMyTimePick(Context context) {
+        final kankan.wheel.widget.WheelView wwYear, wwMonth, wwDay, wwHour, wwMinute, wwSecond;
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(500, ViewGroup.LayoutParams.WRAP_CONTENT);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.date_time_second_picker, null);
+        dialogView.setLayoutParams(layoutParams);
+        wwYear = (kankan.wheel.widget.WheelView) dialogView.findViewById(R.id.ww_year);
+        wwMonth = (kankan.wheel.widget.WheelView) dialogView.findViewById(R.id.ww_month);
+        wwDay = (kankan.wheel.widget.WheelView) dialogView.findViewById(R.id.ww_day);
+        wwHour = (kankan.wheel.widget.WheelView) dialogView.findViewById(R.id.ww_hour);
+        wwMinute = (kankan.wheel.widget.WheelView) dialogView.findViewById(R.id.ww_minute);
+        wwSecond = (kankan.wheel.widget.WheelView) dialogView.findViewById(R.id.ww_second);
+        Button btnOk = (Button) dialogView.findViewById(R.id.date_time_ok);
+        Button btnCancel = (Button) dialogView.findViewById(R.id.date_time_cancle);
+
+        final String[] years;
+        final String[] months;
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        //        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        WindowManager.LayoutParams attributes = dialog.getWindow().getAttributes();
+        attributes.width = 500;
+        attributes.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(attributes);
+        //        dialog.show();
+        final PopupWindow popupWindow = new PopupWindow(dialogView, 500, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.wheel_bg));
+        popupWindow.setTouchable(true);
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        View mainView = findViewById(R.id.activity_add_bijia);
+        popupWindow.showAtLocation(mainView, Gravity.CENTER, 0, 0);
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        years = new String[3];
+        final int curentYear = date.getYear() + 1900;
+        years[0] = String.valueOf(curentYear - 1);
+        years[1] = String.valueOf(curentYear);
+        years[2] = String.valueOf(curentYear + 1);
+        final ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<>(AddBijiaActivity.this, years);
+        wwYear.setViewAdapter(adapter);
+        wwYear.setCurrentItem(1);
+        wwYear.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(kankan.wheel.widget.WheelView wheel, int oldValue, int newValue) {
+                wwMonth.setCurrentItem(0);
+            }
+        });
+        months = produceArray(12);
+        ArrayWheelAdapter<String> monAdapter = new ArrayWheelAdapter<>(AddBijiaActivity.this, months);
+        wwMonth.setViewAdapter(monAdapter);
+        int currentMonth = date.getMonth();
+        wwMonth.setCurrentItem(currentMonth);
+        wwMonth.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(kankan.wheel.widget.WheelView wheel, int oldValue, int newValue) {
+                int currentItem = wwMonth.getCurrentItem();
+                wwDay.setCurrentItem(0);
+                ArrayWheelAdapter<String> adapter;
+                String[] days;
+                switch (currentItem + 1) {
+                    case 2:
+                        int selYear = Integer.parseInt(years[wwYear.getCurrentItem()]);
+                        Log.e("zjy", "MainActivity->onChanged(): year==" + selYear);
+                        boolean isRunYear = false;
+                        if (selYear % 100 == 0) {
+                            if (selYear % 400 == 0) {
+                                isRunYear = true;
+                            }
+                        } else {
+                            if (selYear % 4 == 0) {
+                                isRunYear = true;
+                            }
+                        }
+                        if (isRunYear) {
+                            days = produceArray(29);
+                        } else {
+                            days = produceArray(28);
+                        }
+                        break;
+                    case 4:
+                    case 6:
+                    case 9:
+                    case 11:
+                        days = produceArray(30);
+                        break;
+                    default:
+                        days = produceArray(31);
+                        break;
+                }
+                adapter = new ArrayWheelAdapter<String>(AddBijiaActivity.this, days);
+                wwDay.setViewAdapter(adapter);
+            }
+        });
+        final String[] days = produceArray(31);
+        ArrayWheelAdapter<String> dayAdapter = new ArrayWheelAdapter<>(AddBijiaActivity.this, days);
+        final String[] hours = produceArray(24);
+        final String[] minute = produceArray(59);
+        final String[] second = produceArray(59);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String year = years[wwYear.getCurrentItem()];
+                String month = months[wwMonth.getCurrentItem()];
+                String day = days[wwDay.getCurrentItem()];
+                String hour = hours[wwHour.getCurrentItem()];
+                String minute1 = minute[wwMinute.getCurrentItem()];
+                String cSecond = second[wwSecond.getCurrentItem()];
+                String text = year + "/" + month + "/" + day + "\t" + hour + ":" + minute1 + ":" + cSecond;
+                btnDate.setText(text);
+                popupWindow.dismiss();
+            }
+        });
+        ArrayWheelAdapter<String> hourAdapter = new ArrayWheelAdapter<>(AddBijiaActivity.this, hours);
+        ArrayWheelAdapter<String> minuteAdapter = new ArrayWheelAdapter<>(AddBijiaActivity.this, minute);
+        ArrayWheelAdapter<String> secondAdapter = new ArrayWheelAdapter<>(AddBijiaActivity.this, second);
+        wwDay.setViewAdapter(dayAdapter);
+        wwDay.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+
+        Log.e("zjy", "AddBijiaActivity->showMyTimePick(): date_day==" + date.getDay());
+
+        wwHour.setViewAdapter(hourAdapter);
+        wwHour.setCurrentItem(date.getHours() - 1);
+        wwMinute.setViewAdapter(minuteAdapter);
+        wwMinute.setCurrentItem(date.getMinutes() - 1);
+        wwSecond.setViewAdapter(secondAdapter);
+        wwSecond.setCurrentItem(date.getSeconds() - 1);
+    }
+
+    private String[] produceArray(int days) {
+        String[] tempDays;
+        tempDays = new String[days];
+        for (int i = 0; i < days; i++) {
+            if (i < 9) {
+                tempDays[i] = 0 + String.valueOf(i + 1);
+            } else {
+                tempDays[i] = String.valueOf(i + 1);
+            }
+
+        }
+        return tempDays;
+    }
+
     public void getMyProvider(String checkWord, String userID, int myDeptID, String providerName, final Handler mHandler) {
         //GetMyProvider
         // paramName="checkWord"  type="string"
         //paramName="userID" type="int"
         //paramName="myDeptID" type="int"
         //paramName="providerName"  type="string"
+        if (userID == null || userID.equals("")) {
+            MyToast.showToast(AddBijiaActivity.this, "请重新启动程序，登录id为空");
+            return;
+        }
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("checkWord", checkWord);
         map.put("userID", Integer.valueOf(userID));
