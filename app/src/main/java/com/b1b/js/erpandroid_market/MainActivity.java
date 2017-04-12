@@ -96,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
                         MyApp.ftpUrl = sp.getString("ftp", "");
                     }
                     //是否记住密码
-                    //                    ifSavePwd(true, "101", "62105300");
+                    if (cboRemp.isChecked()) {
+                        ifSavePwd(true, infoMap.get("name"), infoMap.get("pwd"));
+                    } else {
+                        ifSavePwd(false, infoMap.get("name"), infoMap.get("pwd"));
+                    }
                     pd.cancel();
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     startActivity(intent);
@@ -222,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 12:
                     String info = tvVersion.getText().toString().trim();
-                    info = info +"，更新说明:"+"\n"+ updateLog;
+                    info = info + "，更新说明:" + "\n" + updateLog;
                     tvVersion.setText(info);
                     break;
             }
@@ -243,17 +247,13 @@ public class MainActivity extends AppCompatActivity {
         tvVersion = (TextView) findViewById(R.id.main_version);
         sp = getSharedPreferences("UserInfo", 0);
         final String phoneCode = CaigoudanEditActivity.getPhoneCode(MainActivity.this);
-                Log.e("zjy", "MainActivity.java->onCreate(): phoneInfo==" + phoneCode);
+        Log.e("zjy", "MainActivity.java->onCreate(): phoneInfo==" + phoneCode);
         //检查更新
         checkUpdate();
-        //        readCache();
+        readCache();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (phoneCode.endsWith("868930027847564") || phoneCode.endsWith("358403032322590") || phoneCode.endsWith("864394010742122")) {
-                    login("101", "62105300");
-                    return;
-                }
                 String name = edUserName.getText().toString().trim();
                 String pwd = edPwd.getText().toString().trim();
                 if (pwd.equals("") || name.equals("")) {
@@ -390,7 +390,6 @@ public class MainActivity extends AppCompatActivity {
                 while (!success) {
                     try {
                         Map<String, Object> result = getUserInfo(uid);
-                        sp = getSharedPreferences("UserInfo", 0);
                         sp.edit().putInt("cid", (int) result.get("cid")).putInt("did", (int) result.get("did")).
                                 putString("oprName", (String) result.get("oprName")).apply();
                         success = true;
@@ -410,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Map<String, Object> getUserInfo(String uid) throws IOException, XmlPullParserException, JSONException {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("checker", "1");
         map.put("uid", uid);
         SoapObject request = WebserviceUtils.getRequest(map, "GetUserInfoByUID");
@@ -465,7 +464,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 String code = data.getStringExtra("result");
                 if (code != null) {
-                    LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+                    LinkedHashMap<String, Object> map = new LinkedHashMap<>();
                     map.put("checkword", "");
                     map.put("code", code);
                     SoapObject object = WebserviceUtils.getRequest(map, "BarCodeLogin");
@@ -489,12 +488,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void readCache() {
         if (sp.getBoolean("remp", false)) {
-            edUserName.setText(sp.getString("name", null));
-            edPwd.setText(sp.getString("pwd", null));
+            edUserName.setText(sp.getString("name", ""));
+            edPwd.setText(sp.getString("pwd", ""));
             cboRemp.setChecked(true);
             if (sp.getBoolean("autol", false)) {
                 cboAutol.setChecked(true);
-                login(sp.getString("name", null), sp.getString("pwd", null));
+                login(sp.getString("name", ""), sp.getString("pwd", ""));
             }
         }
     }
@@ -514,7 +513,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread() {
             @Override
             public void run() {
-                LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+                LinkedHashMap<String, Object> map = new LinkedHashMap<>();
                 PackageManager pm = getPackageManager();
                 String version = "";
                 try {

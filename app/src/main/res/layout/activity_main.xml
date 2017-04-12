@@ -16,6 +16,14 @@
         android:layout_marginTop="20dp"
         android:src="@mipmap/appicon"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="大赢家市场版"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"/>
+
     <EditText
         android:id="@+id/login_username"
         android:layout_width="match_parent"
@@ -90,6 +98,7 @@
             android:button="@drawable/btn_cbo_style"
             android:paddingLeft="5dp"
             android:text="自动登录"
+            android:visibility="gone"
             />
     </LinearLayout>
 

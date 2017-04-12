@@ -62,7 +62,7 @@ public class BijiadetailInfo {
                         "用户名=" + userName + "\n" +
                         "比价价格=" + price + "\n" +
                         "付款类型=" + fukuanType + "\n" +
-                        "是否开票=" + hasFapiao + "\n" +
+                        "是否开票=" + (hasFapiao.equals("1") ? "已开票" : "未开票") + "\n" +
                         "供应商名称=" + providerName + "\n" +
                         "结账日期=" + jiezhangDate + "\n" +
                         "备注=" + mark;

@@ -78,7 +78,7 @@
             android:layout_marginLeft="10dp"
             android:button="@drawable/btn_cbo_style"
             android:paddingLeft="10dp"
-            android:text="是否取得发票"
+            android:text="未取得发票"
             android:textSize="20sp"
             />
 

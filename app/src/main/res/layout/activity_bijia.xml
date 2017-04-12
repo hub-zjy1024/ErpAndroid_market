@@ -30,8 +30,7 @@
 
         <Button
             android:id="@+id/activity_bijia_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/myButton"
             android:text="搜索"
             />
     </LinearLayout>

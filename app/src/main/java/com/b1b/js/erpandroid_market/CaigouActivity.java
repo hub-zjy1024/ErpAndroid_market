@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,8 +123,10 @@ public class CaigouActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!TextUtils.isEmpty(MyApp.id)) {
-            caigouList.clear();
-            adapter.notifyDataSetChanged();
+            if (caigouList.size() != 0) {
+                caigouList.clear();
+                adapter.notifyDataSetChanged();
+            }
             getData("", Integer.parseInt(MyApp.id), "");
         } else {
             MyToast.showToast(CaigouActivity.this, "用户id不存在，请重新登录");
@@ -136,6 +139,7 @@ public class CaigouActivity extends AppCompatActivity {
             public void run() {
                 try {
                     String res = getCaigoudan(checkWord, buyerId, partNo);
+                    Log.e("zjy", "CaigouActivity->getCaigoudan(): res==" + res);
                     String json = "";
                     if (res.length() > 7) {
                         json = res.substring(7);

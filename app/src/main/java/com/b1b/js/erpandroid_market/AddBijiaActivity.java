@@ -10,10 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -63,7 +61,6 @@ public class AddBijiaActivity extends AppCompatActivity {
     private EditText edPrice;
     private Button btnDate;
     private EditText edMark;
-    private CheckBox cboFaPiao;
     private EditText newProviderName;
     private EditText newProviderPhone;
     private EditText newProviderPeople;
@@ -75,8 +72,8 @@ public class AddBijiaActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case INSERT_SUCCESS:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddBijiaActivity.this);
-                    builder.setMessage("插入成功");
+                    MyToast.showToast(AddBijiaActivity.this, "插入成功");
+                    finish();
                     break;
                 case INSERT_ERROR:
 
@@ -176,8 +173,10 @@ public class AddBijiaActivity extends AppCompatActivity {
                             btnProvider.setText(currentProvider.getName());
                             if (currentProvider.getHasKaipiao().equals("1")) {
                                 cboHasFapiao.setEnabled(true);
+                                cboHasFapiao.setChecked(false);
                             } else {
                                 cboHasFapiao.setEnabled(false);
+                                cboHasFapiao.setChecked(true);
                             }
                             providerDialog.dismiss();
                         }
@@ -188,7 +187,10 @@ public class AddBijiaActivity extends AppCompatActivity {
                 if (did == -1) {
                     MyToast.showToast(AddBijiaActivity.this, "部门号不存在，请清理缓存");
                 }
-                providerInfos.clear();
+                if (providerInfos.size() != 0) {
+                    providerInfos.clear();
+                    popAdapter.notifyDataSetChanged();
+                }
                 getMyProvider("", MyApp.id, did, "", mHandler);
             }
         });
@@ -237,9 +239,9 @@ public class AddBijiaActivity extends AppCompatActivity {
                         try {
                             String payType = fkSpinner.getSelectedItem().toString();
                             String mark = edMark.getText().toString();
-                            String fapiao = "0";
+                            String fapiao = "1";
                             if (cboHasFapiao.isChecked()) {
-                                fapiao = "1";
+                                fapiao = "0";
                             }
                             insertBijia("", did, pid, mark, price, providerId, providerName, providerPhone, providerPeople, payType, date, MyApp.id, userName, providerState, fapiao);
                             mHandler.sendEmptyMessage(INSERT_SUCCESS);
@@ -252,7 +254,6 @@ public class AddBijiaActivity extends AppCompatActivity {
                         }
                     }
                 }.start();
-                MyToast.showToast(AddBijiaActivity.this, "功能暂时不可用");
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -280,24 +281,16 @@ public class AddBijiaActivity extends AppCompatActivity {
 
         final String[] years;
         final String[] months;
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        //        builder.setView(dialogView);
-        AlertDialog dialog = builder.create();
-        WindowManager.LayoutParams attributes = dialog.getWindow().getAttributes();
-        attributes.width = 500;
-        attributes.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setAttributes(attributes);
+        //        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        //        //        builder.setView(dialogView);
+        //        AlertDialog dialog = builder.create();
+        //        WindowManager.LayoutParams attributes = dialog.getWindow().getAttributes();
+        //        attributes.width = 500;
+        //        attributes.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        //        dialog.getWindow().setAttributes(attributes);
         //        dialog.show();
         final PopupWindow popupWindow = new PopupWindow(dialogView, 500, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.wheel_bg));
-        popupWindow.setTouchable(true);
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -337,7 +330,6 @@ public class AddBijiaActivity extends AppCompatActivity {
                 switch (currentItem + 1) {
                     case 2:
                         int selYear = Integer.parseInt(years[wwYear.getCurrentItem()]);
-                        Log.e("zjy", "MainActivity->onChanged(): year==" + selYear);
                         boolean isRunYear = false;
                         if (selYear % 100 == 0) {
                             if (selYear % 400 == 0) {
@@ -368,7 +360,37 @@ public class AddBijiaActivity extends AppCompatActivity {
                 wwDay.setViewAdapter(adapter);
             }
         });
-        final String[] days = produceArray(31);
+        final String[] days;
+        switch (currentMonth + 1) {
+            case 2:
+                int selYear = Integer.parseInt(years[wwYear.getCurrentItem()]);
+                boolean isRunYear = false;
+                if (selYear % 100 == 0) {
+                    if (selYear % 400 == 0) {
+                        isRunYear = true;
+                    }
+                } else {
+                    if (selYear % 4 == 0) {
+                        isRunYear = true;
+                    }
+                }
+                if (isRunYear) {
+                    days = produceArray(29);
+                } else {
+                    days = produceArray(28);
+                }
+                break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                days = produceArray(30);
+                break;
+            default:
+                days = produceArray(31);
+                break;
+        }
+        //        final String[] days = produceArray(31);
         ArrayWheelAdapter<String> dayAdapter = new ArrayWheelAdapter<>(AddBijiaActivity.this, days);
         final String[] hours = produceArray(24);
         final String[] minute = produceArray(59);
@@ -393,9 +415,6 @@ public class AddBijiaActivity extends AppCompatActivity {
         ArrayWheelAdapter<String> secondAdapter = new ArrayWheelAdapter<>(AddBijiaActivity.this, second);
         wwDay.setViewAdapter(dayAdapter);
         wwDay.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
-
-        Log.e("zjy", "AddBijiaActivity->showMyTimePick(): date_day==" + date.getDay());
-
         wwHour.setViewAdapter(hourAdapter);
         wwHour.setCurrentItem(date.getHours() - 1);
         wwMinute.setViewAdapter(minuteAdapter);

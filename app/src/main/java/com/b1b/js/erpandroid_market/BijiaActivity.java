@@ -52,7 +52,7 @@ public class BijiaActivity extends AppCompatActivity {
                     }
                     break;
                 case RES_ERROR:
-                    MyToast.showToast(BijiaActivity.this, "查询出现错误，请检查网络或更改条件");
+                    MyToast.showToast(BijiaActivity.this, "查询出现错误，请检查网络");
                     break;
                 case RES_ERROR_PARAM:
                     MyToast.showToast(BijiaActivity.this, "查询条件有误，更改条件");
@@ -129,7 +129,8 @@ public class BijiaActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 try {
-                    getBijiaList("", "");
+                    String partNo = edPartNo.getText().toString();
+                    getBijiaList("",partNo);
                     mHandler.sendEmptyMessage(RES_SUCCESS);
                 } catch (IOException e) {
                     mHandler.sendEmptyMessage(RES_ERROR);

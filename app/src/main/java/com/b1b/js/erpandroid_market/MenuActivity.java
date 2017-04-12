@@ -3,6 +3,7 @@ package com.b1b.js.erpandroid_market;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.b1b.js.erpandroid_market.utils.MyToast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +72,7 @@ public class MenuActivity extends AppCompatActivity {
 //                        intent.setClass(MenuActivity.this, CheckActivity.class);
                         startActivity(intent);
                         break;
-                    case "采购":
+                    case "采购审核":
                         intent.setClass(MenuActivity.this, CaigouActivity.class);
                         startActivity(intent);
                         break;
@@ -81,16 +84,6 @@ public class MenuActivity extends AppCompatActivity {
                         if (!dialog.isShowing() && dialog != null) {
                             dialog.show();
                         }
-
-
-//                        MaterialDialog dialog = new MaterialDialog(MenuActivity.this);
-//                        View v = LayoutInflater.from(MenuActivity.this).inflate(R.layout.mdialog_progress, null);
-//                        ProgressBar bar = (ProgressBar) v.findViewById(R.id.mdialog_progress_pbar);
-//                        bar.setProgress(20);
-//                        bar.setMax(100);
-//                        dialog.setCanceledOnTouchOutside(true);
-//                        dialog.setContentView(v);
-//                        dialog.show();
                         break;
                     case "比价单":
                         intent.setClass(MenuActivity.this, BijiaActivity.class);
@@ -110,20 +103,19 @@ public class MenuActivity extends AppCompatActivity {
                         intent.setClass(MenuActivity.this, NahuoActivity.class);
                         startActivity(intent);
                         break;
+                    case "取消自动登录":
+                        SharedPreferences sp = getSharedPreferences("UserInfo", 0);
+                        boolean atuoLogin = sp.getBoolean("autol", false);
+                        if (!atuoLogin) {
+                            MyToast.showToast(MenuActivity.this, "当前已是非自动登录状态");
+                        } else {
+                            SharedPreferences.Editor editor = sp.edit();
+                            if (editor.putBoolean("autol", false).commit()) {
+                                MyToast.showToast(MenuActivity.this, "取消登录成功");
+                            }
+                        }
+                        break;
                 }
-                // 取消登录
-                //                if (position == 5) {
-                //                    SharedPreferences sp = getSharedPreferences("UserInfo", 0);
-                //                    boolean al = sp.getBoolean("autol", false);
-                //                    if (!al) {
-                //                        MyToast.showToast(MenuActivity.this, "当前已是非自动登录状态");
-                //                    } else {
-                //                        SharedPreferences.Editor editor = sp.edit();
-                //                        if (editor.putBoolean("autol", false).commit()) {
-                //                            MyToast.showToast(MenuActivity.this, "取消登录成功");
-                //                        }
-                //                    }
-                //                }
             }
         });
     }
@@ -142,7 +134,7 @@ public class MenuActivity extends AppCompatActivity {
 //        map.put("title", "出库审核(拍照)");
 //        listItems.add(map);
 //        map = new HashMap<>();
-        map.put("title", "采购");
+        map.put("title", "采购审核");
         listItems.add(map);
         //        map = new HashMap<>();
         //        map.put("title", "入库");
@@ -157,7 +149,7 @@ public class MenuActivity extends AppCompatActivity {
         map.put("title", "比价单");
         listItems.add(map);
 //        map = new HashMap<>();
-//        map.put("title", "拿货单");
+//        map.put("title", "取消自动登录");
 //        listItems.add(map);
 //        map = new HashMap<>();
 //        map.put("title", "上传服务");
