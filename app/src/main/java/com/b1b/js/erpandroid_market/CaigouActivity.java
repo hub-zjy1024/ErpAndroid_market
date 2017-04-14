@@ -19,7 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.b1b.js.erpandroid_market.entity.Caigoudan;
-import com.b1b.js.erpandroid_market.utils.MyDecoration;
 import com.b1b.js.erpandroid_market.utils.MyToast;
 import com.b1b.js.erpandroid_market.utils.WebserviceUtils;
 
@@ -101,7 +100,7 @@ public class CaigouActivity extends AppCompatActivity {
         LinearLayoutManager lManager = new LinearLayoutManager(CaigouActivity.this);
         lManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRview.setLayoutManager(lManager);
-        mRview.addItemDecoration(new MyDecoration(CaigouActivity.this, MyDecoration.VERTICAL));
+//        mRview.addItemDecoration(new MyDecoration(CaigouActivity.this, MyDecoration.VERTICAL));
         caigouList = new ArrayList<>();
         adapter = new MyRviewAdapter(caigouList, CaigouActivity.this, new OnItemClickListener() {
             @Override

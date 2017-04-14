@@ -26,6 +26,7 @@
             style="@style/myButton"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:drawableLeft="@mipmap/drable_add_bijia"
             android:layout_alignParentRight="true"
             android:background="@color/bijia_title_background"
             android:textColor="@color/color_white"
@@ -41,7 +42,9 @@
         <ListView
             android:id="@+id/bijiadetail_lv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:divider="@color/color_black"
+            android:dividerHeight="0dp"/>
 
         <TextView
             android:id="@+id/bijiadetail_empty"

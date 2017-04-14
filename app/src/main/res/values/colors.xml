@@ -6,4 +6,9 @@
     <color name="bijia_title_background">#8385f7</color>
     <color name="color_white">#ffffff</color>
     <color name="color_black">#000000</color>
+    <color name="main_ed_primaryColor">#4d51d2</color>
+    <color name="main_ed_baseColor">#7c12ec</color>
+    <color name="main_ed_floatingColor">#801515</color>
+    <color name="cardview_bg">#b0b2ea</color>
+
 </resources>

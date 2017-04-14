@@ -49,7 +49,6 @@ public class MyFileUtils {
             newBitmap.compress(CompressFormat.JPEG, 100, fio);
             Log.e("length", "" + file.length());
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
