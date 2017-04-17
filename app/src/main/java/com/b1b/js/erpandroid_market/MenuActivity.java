@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.b1b.js.erpandroid_market.utils.MyToast;
 
@@ -22,7 +24,7 @@ import java.util.Map;
 public class MenuActivity extends AppCompatActivity {
     private ListView menuList;
     private SimpleAdapter simpleAdapter;
-    private List<Map<String, String>> listItems = new ArrayList<>();
+    private List<Map<String, Object>> listItems = new ArrayList<>();
     private AlertDialog dialog;
 
     @Override
@@ -30,7 +32,22 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_layout);
         menuList = (ListView) findViewById(R.id.lv);
-        simpleAdapter = new SimpleAdapter(this, listItems, R.layout.menu_items, new String[]{"title"}, new int[]{R.id.menu_title});
+        simpleAdapter = new SimpleAdapter(this, listItems, R.layout.menu_items, new String[]{"title", "imageID"}, new int[]{R.id.menu_title, R.id.menu_img});
+        simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Object data, String textRepresentation) {
+                if (view instanceof ImageView) {
+                    ImageView iv = (ImageView) view;
+                    iv.setImageResource((Integer) data);
+                    return true;
+                } else if (view instanceof TextView) {
+                    TextView tv = (TextView) view;
+                    tv.setText((String) data);
+                    return true;
+                }
+                return false;
+            }
+        });
         // 为菜单项设置点击事件
         setItemOnclickListener();
         addItem();
@@ -60,8 +77,8 @@ public class MenuActivity extends AppCompatActivity {
         menuList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Map<String, String> item = listItems.get(position);
-                String value = item.get("title");
+                Map<String, Object> item = listItems.get(position);
+                String value = (String) item.get("title");
                 Intent intent = new Intent();
                 switch (value) {
                     case "出库单":
@@ -127,7 +144,7 @@ public class MenuActivity extends AppCompatActivity {
 
     // 添加菜单项
     private void addItem() {
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 //        map.put("title", "出库单");
 //        listItems.add(map);
 //        map = new HashMap<>();
@@ -135,6 +152,8 @@ public class MenuActivity extends AppCompatActivity {
 //        listItems.add(map);
 //        map = new HashMap<>();
         map.put("title", "采购审核");
+        map.put("imageID", R.mipmap.menu_shenhe_72);
+
         listItems.add(map);
         //        map = new HashMap<>();
         //        map.put("title", "入库");
@@ -147,6 +166,7 @@ public class MenuActivity extends AppCompatActivity {
 //        listItems.add(map);
         map = new HashMap<>();
         map.put("title", "比价单");
+        map.put("imageID", R.mipmap.menu_compare_72);
         listItems.add(map);
 //        map = new HashMap<>();
 //        map.put("title", "取消自动登录");

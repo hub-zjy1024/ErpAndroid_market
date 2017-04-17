@@ -15,4 +15,8 @@
     <style name="caigouedit_items">
         <item name="android:textColor">#a85cff</item>
     </style>
+    <style name="Popwindow_animation">
+        <item name="android:windowEnterAnimation">@anim/pop_show_translate</item>
+        <item name="android:windowExitAnimation">@anim/pop_dismiss_translate</item>
+    </style>
 </resources>

@@ -3,6 +3,7 @@ package com.b1b.js.erpandroid_market;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -76,19 +78,19 @@ public class AddBijiaActivity extends AppCompatActivity {
                     finish();
                     break;
                 case INSERT_ERROR:
-
+                    MyToast.showToast(AddBijiaActivity.this, "插入失败");
                     break;
-
                 case 3:
                     popAdapter.notifyDataSetChanged();
                     break;
                 case 5:
-                    MyToast.showToast(AddBijiaActivity.this, "搜索失败");
+                    MyToast.showToast(AddBijiaActivity.this, "搜索供应商失败");
                     break;
             }
         }
     };
     private Calendar calendar;// 用来装日期的
+    PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +110,7 @@ public class AddBijiaActivity extends AppCompatActivity {
         newProviderPeople = (EditText) findViewById(R.id.add_bijia_new_people);
         newProviderPhone = (EditText) findViewById(R.id.add_bijia_new_phone);
         calendar = Calendar.getInstance();
-
+        popupWindow = new PopupWindow( ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -289,8 +291,20 @@ public class AddBijiaActivity extends AppCompatActivity {
         //        attributes.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         //        dialog.getWindow().setAttributes(attributes);
         //        dialog.show();
-        final PopupWindow popupWindow = new PopupWindow(dialogView, 500, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        popupWindow.setContentView(dialogView);
+        popupWindow.setFocusable(true);
+        //        final PopupWindow popupWindow = new PopupWindow(dialogView, 500, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.wheel_bg));
+        popupWindow.setAnimationStyle(R.style.Popwindow_animation);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams attributes = getWindow().getAttributes();
+                attributes.alpha = 1.0f;
+                getWindow().setAttributes(attributes);
+            }
+        });
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,6 +313,9 @@ public class AddBijiaActivity extends AppCompatActivity {
         });
         View mainView = findViewById(R.id.activity_add_bijia);
         popupWindow.showAtLocation(mainView, Gravity.CENTER, 0, 0);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.5f;
+        getWindow().setAttributes(lp);
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         years = new String[3];

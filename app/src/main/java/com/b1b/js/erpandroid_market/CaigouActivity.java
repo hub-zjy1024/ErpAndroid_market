@@ -139,7 +139,7 @@ public class CaigouActivity extends AppCompatActivity {
                 try {
                     String res = getCaigoudan(checkWord, buyerId, partNo);
                     Log.e("zjy", "CaigouActivity->getCaigoudan(): res==" + res);
-                    String json = "";
+                    String json = res;
                     if (res.length() > 7) {
                         json = res.substring(7);
                     }

@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="年-月-日"
-        android:background="#7fd76d6d"
+        android:textColor="#FFFFFF"
+        android:background="@color/bijia_title_background"
         android:textSize="18sp"/>
 
     <LinearLayout
@@ -41,7 +42,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="时-分-秒"
-        android:background="#7fd76d6d"
+        android:textColor="@color/color_white"
+        android:background="@color/bijia_title_background"
         android:textSize="18sp"/>
 
     <LinearLayout
