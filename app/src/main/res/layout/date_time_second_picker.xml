@@ -10,7 +10,7 @@
         android:gravity="center"
         android:text="年-月-日"
         android:textColor="#FFFFFF"
-        android:background="@color/bijia_title_background"
+        android:background="@color/title_background"
         android:textSize="18sp"/>
 
     <LinearLayout
@@ -43,7 +43,7 @@
         android:gravity="center"
         android:text="时-分-秒"
         android:textColor="@color/color_white"
-        android:background="@color/bijia_title_background"
+        android:background="@color/title_background"
         android:textSize="18sp"/>
 
     <LinearLayout

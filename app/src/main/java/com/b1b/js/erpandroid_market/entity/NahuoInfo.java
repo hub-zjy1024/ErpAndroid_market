@@ -61,17 +61,16 @@ public class NahuoInfo {
     @Override
     public String toString() {
         return "NahuoInfo{" +
-                "createDate='" + createDate + 
-                ", state='" + state + 
-                ", note='" + note + 
-                ", providerName='" + providerName + 
-                ", childCompany='" + childCompany + 
-                ", deptName='" + deptName + 
-                ", saleMan='" + saleMan + 
-                ", kaipiaoType='" + kaipiaoType + 
-                ", kaipiaoCompany='" + kaipiaoCompany + 
-                ", kaipiaoFlag='" + kaipiaoFlag + 
-                '}';
+                "createDate=" + createDate + "\n" +
+                "state=" + state +"\n" +
+                "note=" + note + "\n" +
+                "providerName=" + providerName + "\n" +
+                "childCompany=" + childCompany + "\n" +
+                "deptName=" + deptName + "\n" +
+                "saleMan=" + saleMan + "\n" +
+                "kaipiaoType=" + kaipiaoType + "\n" +
+                "kaipiaoCompany=" + kaipiaoCompany + "\n" +
+                "kaipiaoFlag=" + kaipiaoFlag;
     }
 
     public String getCreateDate() {

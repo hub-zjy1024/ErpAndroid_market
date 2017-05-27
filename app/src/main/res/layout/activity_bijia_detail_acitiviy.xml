@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:background="@color/bijia_title_background"
+            android:background="@color/title_background"
             android:gravity="center"
             android:text="比价明细"
             android:textColor="@color/color_white"
@@ -28,7 +28,7 @@
             android:layout_height="40dp"
             android:drawableLeft="@mipmap/drable_add_bijia"
             android:layout_alignParentRight="true"
-            android:background="@color/bijia_title_background"
+            android:background="@color/title_background"
             android:textColor="@color/color_white"
             android:text="新增比价"/>
 

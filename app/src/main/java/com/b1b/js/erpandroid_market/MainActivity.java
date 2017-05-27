@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -272,39 +271,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100 && permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.e("zjy", "MenuActivity.java->onRequestPermissionsResult(): ok==");
-        } else {
-            if (permissionDialog == null) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("建议");
-                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                        intent.setData(Uri.fromParts("package", getPackageName(), null));
-                        MainActivity.this.startActivity(intent);
-                    }
-                });
-                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.setMessage("缺少相机权限，是否跳转到权限管理页面开启权限");
-                permissionDialog = builder.create();
-                permissionDialog.show();
-            } else {
-                permissionDialog.show();
-            }
-        }
-    }
 
     private void startUpdate() {
         downPd = new ProgressDialog(MainActivity.this);

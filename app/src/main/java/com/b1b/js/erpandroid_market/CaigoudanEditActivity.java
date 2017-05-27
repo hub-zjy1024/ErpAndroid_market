@@ -267,10 +267,7 @@ public class CaigoudanEditActivity extends AppCompatActivity {
                             } else {
                                 mHandler.sendEmptyMessage(4);
                             }
-                        } catch (IOException e) {
-                            mHandler.sendEmptyMessage(7);
-                            e.printStackTrace();
-                        } catch (XmlPullParserException e) {
+                        } catch (IOException | XmlPullParserException e) {
                             mHandler.sendEmptyMessage(7);
                             e.printStackTrace();
                         }
@@ -416,13 +413,7 @@ public class CaigoudanEditActivity extends AppCompatActivity {
                         list.add(caigouGoodType);
                     }
                     mHandler.sendEmptyMessage(targetWhat);
-                } catch (XmlPullParserException e) {
-                    mHandler.sendEmptyMessage(0);
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    mHandler.sendEmptyMessage(0);
-                    e.printStackTrace();
-                } catch (JSONException e) {
+                } catch (XmlPullParserException | IOException | JSONException e) {
                     mHandler.sendEmptyMessage(0);
                     e.printStackTrace();
                 }
@@ -464,13 +455,10 @@ public class CaigoudanEditActivity extends AppCompatActivity {
                         mHandler.sendEmptyMessage(8);
                     }
                     Log.e("zjy", "CaigoudanEditActivity.java->run(): detailRes==" + response.toString());
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     mHandler.sendEmptyMessage(9);
                     e.printStackTrace();
                 } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    mHandler.sendEmptyMessage(9);
                     e.printStackTrace();
                 }
             }
@@ -508,10 +496,7 @@ public class CaigoudanEditActivity extends AppCompatActivity {
                     } else {
                         mHandler.sendEmptyMessage(5);
                     }
-                } catch (IOException e) {
-                    mHandler.sendEmptyMessage(5);
-                    e.printStackTrace();
-                } catch (XmlPullParserException e) {
+                } catch (IOException | XmlPullParserException e) {
                     mHandler.sendEmptyMessage(5);
                     e.printStackTrace();
                 }

@@ -18,14 +18,13 @@ public class InsertDetialInfo {
     @Override
     public String toString() {
         return "InsertDetialInfo{" +
-                "money='" + money + '\'' +
-                ", pihao='" + pihao + '\'' +
-                ", partno='" + partno + '\'' +
-                ", type='" + type + '\'' +
-                ", detailId='" + detailId + '\'' +
-                ", checkPrice=" + checkPrice +
-                ", typeId='" + typeId + '\'' +
-                '}';
+                "money='" + money + "\n" +
+                " pihao=" + pihao + "\n" +
+                " partno=" + partno+ "\n" +
+                " type=" + type + "\n" +
+                " detailId=" + detailId + "\n" +
+                " checkPrice=" + checkPrice+ "\n" +
+                " typeId=" + typeId ;
     }
 
     public InsertDetialInfo(String money, String pihao, String partno, String type, String detailId, Double checkPrice, String typeId) {

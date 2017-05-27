@@ -3,26 +3,27 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="#a39797"
-              android:padding="10dp">
+    >
+
+    <TextView
+        style="@style/zjy_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="菜单"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bijia_title_background"
-        android:gravity="center"
-        android:text="管理"
-        android:textColor="@color/color_white"
-        android:textSize="25sp"/>
+        android:layout_height="10dp"
+        android:background="@color/color_shadow"/>
 
     <ListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/border2"
-        android:dividerHeight="1dp"
         android:divider="@drawable/divider"
+        android:dividerHeight="1dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         />
 
 
